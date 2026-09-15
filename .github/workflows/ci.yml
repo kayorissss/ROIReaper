@@ -7,11 +7,13 @@ on:
 
 permissions:
   contents: read
+  checks: write
 
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         node-version: [18.x, 20.x, 22.x]
     steps:
@@ -21,7 +23,31 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm ci
+
       - name: Юнит- и регрессионные тесты
-        run: npm test
+        shell: bash
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee unit.log
+
       - name: Стресс-харнес игр
-        run: node tools/stress-games.js
+        if: always()
+        shell: bash
+        run: |
+          set -o pipefail
+          node tools/stress-games.js 2>&1 | tee stress.log
+
+      - name: Диагностика при падении
+        if: failure()
+        shell: bash
+        run: |
+          for f in unit.log stress.log; do
+            [ -f "$f" ] || continue
+            tail -n 60 "$f" | while IFS= read -r line; do
+              [ -z "$line" ] && continue
+              esc=${line//%/%25}
+              esc=${esc//$'\r'/%0D}
+              esc=${esc//$'\n'/%0A}
+              echo "::error file=${f}::${esc}"
+            done
+          done

@@ -1,0 +1,44 @@
+name: Архивные ассеты (v1.0.0)
+
+# Одноразовый воркфлоу: прикрепляет два файла к уже выпущенному релизу v1.0.0
+# (тег старше релизного CI) и публикует SHA-256 всех ассетов в аннотациях.
+# Срабатывает только при изменении самого файла в main; после отработки удаляется.
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/legacy-assets.yml']
+
+permissions:
+  contents: write
+  checks: write
+
+jobs:
+  legacy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Собрать файлы v1.0.0 (из каталога тега) и v1.0.1 (из ассетов)
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p assets && cd assets
+          BASE00='https://github.com/${{ github.repository }}/raw/refs/tags/v1.0.0/release'
+          curl -fL --retry 3 -o ROIReaper-1.0.0-Portable.zip "$BASE00/ROIReaper-1.0.0-Portable.zip"
+          curl -fL --retry 3 -o ROIReaper-Setup-1.0.0.exe   "$BASE00/ROIReaper-Setup-1.0.0.exe"
+          curl -fL --retry 3 -o ROIReaper-1.0.1-Portable.zip 'https://github.com/${{ github.repository }}/releases/download/v1.0.1/ROIReaper-1.0.1-Portable.zip'
+          curl -fL --retry 3 -o ROIReaper-Setup-1.0.1.exe   'https://github.com/${{ github.repository }}/releases/download/v1.0.1/ROIReaper-Setup-1.0.1.exe'
+          sha256sum * | tee SHA256SUMS.txt
+          # публикуем каждую сумму отдельной аннотацией — их видно в Check Runs API
+          while IFS='  ' read -r hash name; do
+            echo "::notice title=sha256 ${name}::${hash}"
+          done < SHA256SUMS.txt
+
+      - name: Прикрепить файлы к релизу v1.0.0
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.0
+          make_latest: false
+          files: |
+            assets/ROIReaper-1.0.0-Portable.zip
+            assets/ROIReaper-Setup-1.0.0.exe
+          fail_on_unmatched_files: true
