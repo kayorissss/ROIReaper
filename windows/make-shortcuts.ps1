@@ -4,6 +4,10 @@
 $dst = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $wsh = New-Object -ComObject WScript.Shell
 
+$appVer = "1.0.0"
+$verFile = Join-Path $dst "version.txt"
+if (Test-Path $verFile) { $appVer = (Get-Content $verFile -TotalCount 1).Trim() }
+
 $desktop   = [Environment]::GetFolderPath("Desktop")
 $startMenu = [Environment]::GetFolderPath("Programs")
 $rrMenu    = Join-Path $startMenu "ROIReaper"
@@ -40,7 +44,7 @@ $uninstKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\ROIReape
 New-Item -Path $uninstKey -Force | Out-Null
 Set-ItemProperty $uninstKey -Name DisplayName     -Value "ROIReaper — Жнец Роя"
 Set-ItemProperty $uninstKey -Name DisplayIcon     -Value "$icon,0"
-Set-ItemProperty $uninstKey -Name DisplayVersion  -Value "1.0.0"
+Set-ItemProperty $uninstKey -Name DisplayVersion  -Value $appVer
 Set-ItemProperty $uninstKey -Name Publisher       -Value "kayorissss"
 Set-ItemProperty $uninstKey -Name InstallLocation -Value $dst
 Set-ItemProperty $uninstKey -Name UninstallString -Value "cmd /c `"$unCmd`""

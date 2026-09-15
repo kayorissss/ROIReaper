@@ -35,14 +35,14 @@
 ## 🖥 Две версии для Windows
 
 ### 1. Портативная (для флешки и чужих ПК в колледже)
-1. Скачайте `ROIReaper-1.0.0-Portable.zip` из [релизов](https://github.com/kayorissss/ROIReaper/releases).
+1. Скачайте `ROIReaper-1.0.1-Portable.zip` из [релизов](https://github.com/kayorissss/ROIReaper/releases).
 2. Распакуйте куда угодно (флешка, Рабочий стол).
 3. Запустите **`ROIReaper.cmd`** (или `start.vbs` — без мигания консоли).
 
 Установка и права администратора не нужны. Всё хранится локально.
 
 ### 2. Установочная
-1. Скачайте `ROIReaper-Setup-1.0.0.exe`.
+1. Скачайте `ROIReaper-Setup-1.0.1.exe`.
 2. Запустите — программа установится в папку профиля (`%LOCALAPPDATA%\ROIReaper`), появятся ярлыки на рабочем столе, в меню Пуск и пункт «Удалить ROIReaper». UAC не требуется.
 
 ## 🔄 Обновления

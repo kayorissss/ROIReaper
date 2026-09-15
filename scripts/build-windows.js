@@ -1,8 +1,8 @@
 /**
  * ============================================================
  *  ROIReaper — сборка Windows-дистрибутивов
- *   • ROIReaper-1.0.0-Portable.zip — распаковал и запустил (флешка)
- *   • ROIReaper-Setup-1.0.0.exe    — установщик без UAC (ярлыки, удаление)
+ *   • ROIReaper-1.0.1-Portable.zip — распаковал и запустил (флешка)
+ *   • ROIReaper-Setup-1.0.1.exe    — установщик без UAC (ярлыки, удаление)
  *  Запуск: node scripts/build-windows.js
  * ============================================================
  */
@@ -65,6 +65,8 @@ function walk(dir, cb) {
 }
 // 3) иконка
 fs.copyFileSync(path.join(root, 'resources', 'icon.ico'), path.join(portable, 'icon.ico'));
+// версия сборки (читается установщиком для «Программ и компонентов»)
+fs.writeFileSync(path.join(portable, 'version.txt'), ver + '\n', 'ascii');
 // 4) документация
 fs.copyFileSync(path.join(root, 'README.md'), path.join(portable, 'README.md'));
 fs.copyFileSync(path.join(root, 'LICENSE'), path.join(portable, 'LICENSE'));

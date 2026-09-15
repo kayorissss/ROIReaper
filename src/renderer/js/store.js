@@ -3,7 +3,7 @@
   'use strict';
 
   const KEY = 'roireaper.save.v1';
-  const VERSION = '1.0.0';
+  const VERSION = '1.0.1';
 
   function defaults() {
     return {
