@@ -1,0 +1,90 @@
+name: 🐞 Сообщить об ошибке
+description: Что-то работает не так — зависает, не запускается, считает неправильно
+title: "[Баг] "
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Спасибо, что помогаете делать ROIReaper лучше! Заполните, пожалуйста, поля ниже —
+        так проблема будет исправлена заметно быстрее.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Что произошло?
+      description: Опишите, что вы сделали, что ожидали увидеть и что произошло на самом деле.
+      placeholder: |
+        1. Зашёл в «Дурака»…
+        2. Отбил все карты, нажал…
+        3. Игра зависла, кнопки не нажимаются.
+      validations:
+        required: true
+  - type: dropdown
+    id: game
+    attributes:
+      label: Где проявилось?
+      options:
+        - Жатва Роя (кликер)
+        - Кейсы
+        - Слоты
+        - Рулетка
+        - Блэкджек
+        - Кости
+        - Орёл и решка
+        - Империя Роя (стратегия)
+        - Уклонение (аркада)
+        - Шашки
+        - Дурак
+        - 2048
+        - Магазин / инвентарь
+        - Настройки / обновления
+        - Лаунчер / запуск
+        - Раздел «О компьютере»
+        - Другое
+    validations:
+      required: true
+  - type: dropdown
+    id: distribution
+    attributes:
+      label: Версия дистрибутива
+      options:
+        - Portable (флешка, .zip)
+        - Установщик (.exe)
+        - Не знаю
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Версия ROIReaper
+      description: Видна на главном экране в плашке версии (например, v1.0.1).
+      placeholder: v1.0.1
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Версия Windows и браузерный движок
+      description: Например, Windows 11 23H2 / Microsoft Edge 128. Посмотреть можно в разделе «О компьютере».
+      placeholder: Windows 11 23H2, Edge 128
+    validations:
+      required: false
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Как воспроизвести
+      placeholder: |
+        1. Открыть…
+        2. Нажать…
+        3. Увидеть…
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Проверка
+      options:
+        - label: Я уже обновился до последней версии через Настройки → Обновления
+          required: true
+        - label: В трекере ещё нет такой проблемы (поискал среди issues)
+          required: true

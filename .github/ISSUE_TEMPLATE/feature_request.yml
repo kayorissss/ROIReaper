@@ -1,0 +1,37 @@
+name: 💡 Идея
+description: Предложить новую игру, режим или улучшение
+title: "[Идея] "
+labels: ['enhancement']
+body:
+  - type: markdown
+    attributes:
+      value: Идеи приветствуются — особенно новые мини-игры и режимы! 🐝
+  - type: textarea
+    id: problem
+    attributes:
+      label: Какую задачу решает идея?
+      description: Чего не хватает в приложении сейчас?
+      placeholder: Не хватает возможности играть в дурака вдвоём за одним ПК…
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Что предлагаете?
+      description: Опишите механику, экраны, кнопки, управление (WASD/стрелки/мышь).
+      validations:
+        required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Куда относится?
+      options:
+        - Новая мини-игра
+        - Доработка существующей игры
+        - Магазин / экономика мёда
+        - Интерфейс / темы / анимации
+        - Лаунчер / дистрибутив
+        - Обновления
+        - Другое
+    validations:
+      required: true

@@ -1,0 +1,93 @@
+name: Сборка релиза
+
+# Собирает Portable ZIP и установочный EXE и прикрепляет их к релизу на GitHub.
+# Срабатывает на пуш тега v*; для уже выпущенных релизов можно запустить вручную:
+# Actions → Сборка релиза → Run workflow → выбрать тег и режим.
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Тег релиза (например, v1.0.1)'
+        required: true
+        default: 'v1.0.1'
+      mode:
+        description: 'build = собрать из исходников тега; attach = взять файлы из каталога release/ этого тега'
+        type: choice
+        options:
+          - build
+          - attach
+        default: build
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.event.inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Определить тег и режим
+        id: meta
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "tag=${{ github.event.inputs.tag }}" >> "$GITHUB_OUTPUT"
+            echo "mode=${{ github.event.inputs.mode }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+            echo "mode=build" >> "$GITHUB_OUTPUT"
+          fi
+          VER="${{ github.event.inputs.tag || github.ref_name }}"
+          echo "ver=${VER#v}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.meta.outputs.tag }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Зависимости
+        run: npm ci
+
+      - name: Сборка Portable ZIP и Setup EXE
+        if: steps.meta.outputs.mode == 'build'
+        run: node scripts/build-windows.js
+
+      - name: Для старых тегов — взять файлы из каталога release/
+        if: steps.meta.outputs.mode == 'attach'
+        run: |
+          set -euxo pipefail
+          mkdir -p dist
+          BASE="https://github.com/${{ github.repository }}/raw/refs/tags/${{ steps.meta.outputs.tag }}/release"
+          curl -fL --retry 3 -o "dist/ROIReaper-${{ steps.meta.outputs.ver }}-Portable.zip" \
+            "$BASE/ROIReaper-${{ steps.meta.outputs.ver }}-Portable.zip"
+          curl -fL --retry 3 -o "dist/ROIReaper-Setup-${{ steps.meta.outputs.ver }}.exe" \
+            "$BASE/ROIReaper-Setup-${{ steps.meta.outputs.ver }}.exe"
+
+      - name: Контрольные суммы SHA-256
+        id: hash
+        run: |
+          cd dist
+          sha256sum *.zip *.exe | tee SHA256SUMS.txt
+          echo '### Контрольные суммы SHA-256' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          cat SHA256SUMS.txt >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Прикрепить два файла к релизу
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          files: |
+            dist/ROIReaper-${{ steps.meta.outputs.ver }}-Portable.zip
+            dist/ROIReaper-Setup-${{ steps.meta.outputs.ver }}.exe
+          fail_on_unmatched_files: true
+          make_latest: ${{ steps.meta.outputs.tag == 'v1.0.0' && 'false' || 'true' }}

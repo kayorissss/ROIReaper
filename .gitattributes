@@ -1,0 +1,19 @@
+# Нормализация переводов строк
+* text=auto eol=lf
+
+# Windows-скриптам обязателен CRLF (иначе batch/vbs могут вести себя странно)
+*.cmd   text eol=crlf
+*.bat   text eol=crlf
+*.vbs   text eol=crlf
+*.ps1   text eol=crlf
+
+# Бинарники не трогаем
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.ico   binary
+*.woff2 binary
+*.sfx   binary
+*.zip   binary
+*.exe   binary
+*.7z    binary

@@ -1,0 +1,4 @@
+6aad853e90be7ff3aab7e9c143aeca5b5765ce35be8f435de195b07dd743cffa  ROIReaper-1.0.0-Portable.zip
+799ff2508c9bed03156af4af61c791c10553e10e960e055d2411ba0a24f9d58e  ROIReaper-Setup-1.0.0.exe
+cc3cdbb1dbb18e3ee8b5a2608d6717f093d39155b2d3b8eb319c28ca0c31c76c  ROIReaper-1.0.1-Portable.zip
+1914fe7221cd77a3041b97f781422648c2b1af4f207aa12f9c78f733a1991c47  ROIReaper-Setup-1.0.1.exe
