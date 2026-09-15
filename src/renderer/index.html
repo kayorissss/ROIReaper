@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark" data-accent="amber">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark light">
+<title>ROIReaper — Жнец Роя</title>
+<link rel="icon" href="assets/img/icon-128.png">
+<link rel="stylesheet" href="styles/base.css">
+<link rel="stylesheet" href="styles/layout.css">
+<link rel="stylesheet" href="styles/games.css">
+</head>
+<body>
+
+<!-- ЗАСТАВКА -->
+<div id="splash" class="splash" aria-hidden="true">
+  <div class="splash-bg"></div>
+  <div class="splash-core">
+    <div class="splash-ring"></div>
+    <img src="assets/img/icon-256.png" alt="" class="splash-logo" id="splashLogo">
+    <div class="splash-title">ROIREAPER</div>
+    <div class="splash-sub">Ж Н Е Ц &nbsp; Р О Я</div>
+    <div class="splash-bar"><div class="splash-bar-fill" id="splashFill"></div></div>
+    <div class="splash-status" id="splashStatus">Поднимаем улей…</div>
+  </div>
+  <button class="splash-skip" id="splashSkip">Пропустить ⏎</button>
+</div>
+
+<!-- ОБОЛОЧКА -->
+<div id="app" class="app app-hidden">
+  <aside class="sidebar">
+    <div class="brand" data-nav="home">
+      <img src="assets/img/icon-mini.png" alt="" class="brand-mark">
+      <div class="brand-text">
+        <div class="brand-name">ROIReaper</div>
+        <div class="brand-tag">Жнец Роя</div>
+      </div>
+    </div>
+
+    <nav class="nav" id="nav">
+      <div class="nav-group">Центр</div>
+      <button class="nav-item active" data-nav="home"><span class="nav-ico">⌂</span> Главная</button>
+      <button class="nav-item" data-nav="shop"><span class="nav-ico">🛒</span> Магазин</button>
+      <button class="nav-item" data-nav="sysinfo"><span class="nav-ico">🖥</span> О компьютере</button>
+      <button class="nav-item" data-nav="settings"><span class="nav-ico">⚙</span> Настройки</button>
+
+      <div class="nav-group">Мини-игры</div>
+      <button class="nav-item" data-nav="game-clicker"><span class="nav-ico">🐝</span> Жатва Роя <em class="nav-hot">кликер</em></button>
+      <button class="nav-item" data-nav="game-cases"><span class="nav-ico">📦</span> Кейсы <em class="nav-hot">лут</em></button>
+      <button class="nav-item nav-parent">
+        <span class="nav-ico">🎰</span> Казино
+        <span class="nav-caret">▾</span>
+      </button>
+      <div class="nav-sub">
+        <button class="nav-item sub" data-nav="game-slots">Слоты</button>
+        <button class="nav-item sub" data-nav="game-roulette">Рулетка</button>
+        <button class="nav-item sub" data-nav="game-blackjack">Блэкджек</button>
+        <button class="nav-item sub" data-nav="game-dice">Кости</button>
+        <button class="nav-item sub" data-nav="game-coin">Орёл и Решка</button>
+      </div>
+      <button class="nav-item" data-nav="game-imperium"><span class="nav-ico">👑</span> Империя Роя <em class="nav-hot">стратегия</em></button>
+      <button class="nav-item" data-nav="game-dodge"><span class="nav-ico">🥷</span> Уклонение <em class="nav-hot">аркада</em></button>
+      <button class="nav-item" data-nav="game-checkers"><span class="nav-ico">⚫</span> Шашки</button>
+      <button class="nav-item" data-nav="game-durak"><span class="nav-ico">🃏</span> Дурак</button>
+      <button class="nav-item" data-nav="game-2048"><span class="nav-ico">🔢</span> 2048</button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="version-chip" id="versionChip" title="Версия приложения">v1.0.0</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="icon-btn only-mobile" id="menuBtn" title="Меню">☰</button>
+      <div class="crumb" id="crumb">Главная</div>
+      <div class="topbar-right">
+        <div class="currency" title="Игровая валюта: мёд">
+          <span class="cur-ico">🍯</span>
+          <span class="cur-val" id="curHoney">0</span>
+        </div>
+        <div class="currency currency-royal" title="Престиж: королевское желе">
+          <span class="cur-ico">👑</span>
+          <span class="cur-val" id="curJelly">0</span>
+        </div>
+        <button class="icon-btn" id="soundBtn" title="Звук (M)">🔊</button>
+        <button class="icon-btn" id="fsBtn" title="Полный экран (F11)">⛶</button>
+      </div>
+    </header>
+
+    <section class="view-wrap">
+      <div class="view active" id="view-home"></div>
+      <div class="view" id="view-shop"></div>
+      <div class="view" id="view-sysinfo"></div>
+      <div class="view" id="view-settings"></div>
+      <div class="view" id="view-game-clicker"></div>
+      <div class="view" id="view-game-cases"></div>
+      <div class="view" id="view-game-slots"></div>
+      <div class="view" id="view-game-roulette"></div>
+      <div class="view" id="view-game-blackjack"></div>
+      <div class="view" id="view-game-dice"></div>
+      <div class="view" id="view-game-coin"></div>
+      <div class="view" id="view-game-imperium"></div>
+      <div class="view" id="view-game-dodge"></div>
+      <div class="view" id="view-game-checkers"></div>
+      <div class="view" id="view-game-durak"></div>
+      <div class="view" id="view-game-2048"></div>
+    </section>
+  </main>
+</div>
+
+<!-- МОДАЛКИ / ТОСТЫ -->
+<div class="modal-shade" id="modalShade">
+  <div class="modal" id="modal" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <div class="modal-title" id="modalTitle"></div>
+      <button class="icon-btn" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+<div class="toasts" id="toasts"></div>
+<div class="notify" id="notify" hidden>
+  <img src="assets/img/icon-64.png" alt="" class="notify-ico">
+  <div class="notify-body">
+    <div class="notify-title" id="notifyTitle"></div>
+    <div class="notify-text" id="notifyText"></div>
+  </div>
+  <button class="notify-btn" id="notifyBtn"></button>
+  <button class="notify-x" id="notifyX">✕</button>
+  <div class="notify-bar"></div>
+</div>
+
+<script src="sysinfo-loader.js"></script>
+<script src="js/util.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/store.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+<script src="js/home.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/updates.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/sysinfo.js"></script>
+<script src="js/games/clicker.js"></script>
+<script src="js/games/cases.js"></script>
+<script src="js/games/casino-shared.js"></script>
+<script src="js/games/slots.js"></script>
+<script src="js/games/roulette.js"></script>
+<script src="js/games/blackjack.js"></script>
+<script src="js/games/dice.js"></script>
+<script src="js/games/coin.js"></script>
+<script src="js/games/imperium.js"></script>
+<script src="js/games/dodge.js"></script>
+<script src="js/games/checkers.js"></script>
+<script src="js/games/durak.js"></script>
+<script src="js/games/g2048.js"></script>
+<script src="js/splash.js"></script>
+</body>
+</html>

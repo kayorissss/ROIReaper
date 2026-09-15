@@ -1,0 +1,151 @@
+/* ============ ROIReaper — базовая дизайн-система ============ */
+
+@font-face {
+  font-family: 'Unbounded';
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url('../assets/fonts/Unbounded-Variable.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Unbounded';
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url('../assets/fonts/Unbounded-Cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Unbounded';
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url('../assets/fonts/Unbounded-LatinExt.woff2') format('woff2');
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+  --r-sm: 8px;
+  --r: 12px;
+  --r-lg: 18px;
+  --r-xl: 26px;
+  --side-w: 248px;
+  --top-h: 60px;
+  --ease: cubic-bezier(.22,.9,.3,1);
+  --font: 'Unbounded', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Тёмная тема (по умолчанию) */
+[data-theme="dark"] {
+  --bg: #0a0a0c;
+  --bg-grad-1: #0d0d10;
+  --bg-grad-2: #08080a;
+  --panel: #131317;
+  --panel-2: #19191f;
+  --panel-3: #202028;
+  --elev: #26262f;
+  --line: #2a2a33;
+  --line-soft: #22222a;
+  --text: #f4f4f6;
+  --text-2: #c7c7d0;
+  --muted: #8c8c98;
+  --shadow: rgba(0,0,0,.55);
+  --glass: rgba(19,19,23,.72);
+  --accent: #f5b53c;
+  --accent-2: #ff8a3d;
+  --accent-ink: #1a1305;
+  --good: #37d18a;
+  --bad: #f0524a;
+  --info: #5aa8ff;
+  --violet: #a07bff;
+  color-scheme: dark;
+}
+
+/* Светлая тема */
+[data-theme="light"] {
+  --bg: #eef0f4;
+  --bg-grad-1: #f6f7fa;
+  --bg-grad-2: #e6e9f0;
+  --panel: #ffffff;
+  --panel-2: #f7f8fb;
+  --panel-3: #eef1f6;
+  --elev: #e4e8f0;
+  --line: #dcdee6;
+  --line-soft: #e6e8ee;
+  --text: #16171c;
+  --text-2: #3b3d46;
+  --muted: #6c7080;
+  --shadow: rgba(30,34,60,.18);
+  --glass: rgba(255,255,255,.78);
+  --accent: #e89a12;
+  --accent-2: #ef7b21;
+  --accent-ink: #ffffff;
+  --good: #129a5f;
+  --bad: #d83c34;
+  --info: #2b7de0;
+  --violet: #7d56e8;
+  color-scheme: light;
+}
+
+/* Акцентные палитры */
+[data-accent="amber"]  { --accent:#f5b53c; --accent-2:#ff8a3d; --accent-ink:#1a1305; }
+[data-accent="crimson"]{ --accent:#f0524a; --accent-2:#ff8a5c; --accent-ink:#200504; }
+[data-accent="ice"]    { --accent:#54c8f0; --accent-2:#7aa5ff; --accent-ink:#04141c; }
+[data-accent="violet"] { --accent:#a07bff; --accent-2:#d06bff; --accent-ink:#140826; }
+[data-accent="toxic"]  { --accent:#9be73d; --accent-2:#4ed47c; --accent-ink:#0c1a04; }
+[data-theme="light"][data-accent="crimson"]{ --accent:#d83c34; --accent-2:#ef6d43; --accent-ink:#fff; }
+[data-theme="light"][data-accent="ice"]    { --accent:#1f9ecb; --accent-2:#4d7fe8; --accent-ink:#fff; }
+[data-theme="light"][data-accent="violet"] { --accent:#7d56e8; --accent-2:#b355e6; --accent-ink:#fff; }
+[data-theme="light"][data-accent="toxic"]  { --accent:#4fae12; --accent-2:#2cae66; --accent-ink:#fff; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  transition: background .35s ease, color .35s ease;
+}
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+input, select, textarea, button { font-family: inherit; }
+button { color: inherit; }
+
+/* Скроллбары */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--elev); border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); background-clip: padding-box; }
+
+h1,h2,h3,h4 { font-weight: 700; letter-spacing: .01em; }
+
+/* Общие классы */
+.muted { color: var(--muted); }
+.mono { font-variant-numeric: tabular-nums; }
+.gold-text {
+  background: linear-gradient(100deg, var(--accent-2), var(--accent) 55%, #ffe6a8);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hide { display: none !important; }
+.flex { display: flex; }
+.grow { flex: 1; }
+.right { text-align: right; }
+.center { text-align: center; }
+.gap8 { gap: 8px; } .gap12 { gap: 12px; } .gap16 { gap: 16px; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes riseIn { from { opacity: 0; transform: translateY(16px) scale(.985); } to { opacity: 1; transform: none; } }
+@keyframes popIn { 0% { opacity:0; transform: scale(.8);} 60%{ transform: scale(1.04);} 100% { opacity:1; transform: scale(1);} }
+@keyframes shake { 10%,90%{transform:translateX(-2px)} 20%,80%{transform:translateX(4px)} 30%,50%,70%{transform:translateX(-6px)} 40%,60%{transform:translateX(6px)} }
+@keyframes floatUp { 0%{opacity:1; transform: translate(-50%,0) scale(1)} 100%{opacity:0; transform: translate(-50%,-90px) scale(1.25)} }
+@keyframes shimmer { 0%{background-position:-400px 0} 100%{background-position:400px 0} }
+@keyframes pulse { 0%,100%{ box-shadow:0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent);} 50%{ box-shadow:0 0 0 10px transparent;} }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes glowPulse { 0%,100%{ filter: brightness(1);} 50%{ filter: brightness(1.35);} }
+
+.no-anim *, .no-anim { animation-duration: .01ms !important; transition-duration: .01ms !important; }
