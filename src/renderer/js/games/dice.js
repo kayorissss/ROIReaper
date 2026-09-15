@@ -83,7 +83,7 @@
       )
     );
 
-    v.append(panel, ctl);
+    v.append(Casino.bonusBadge(), panel, ctl);
 
     const dirBtns = ctl.querySelectorAll('.dice-dir');
     dirBtns[0].addEventListener('click', () => { over = false; sync(); });

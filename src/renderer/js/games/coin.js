@@ -37,7 +37,7 @@
       el('div', { class: 'panel-title', text: 'История бросков' }),
       el('div', { class: 'coin-history', text: '— пока пусто —' }));
 
-    v.append(panel, ctl, hist);
+    v.append(Casino.bonusBadge(), panel, ctl, hist);
 
     const sides = ctl.querySelectorAll('.coin-side');
     function syncSides() {

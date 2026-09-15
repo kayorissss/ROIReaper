@@ -288,28 +288,32 @@
 
     // дюжины
     const doz = el('div', { class: 'rt-outside rt-dozens' });
+    doz.appendChild(el('div', { class: 'rt-spacer' }));
     [['1-я дюжина', 1], ['2-я дюжина', 2], ['3-я дюжина', 3]].forEach(([label, d]) => {
       const b = el('button', { class: 'rt-out', dataset: { spot: 'dozen:' + d }, text: label });
       b.addEventListener('click', () => addBet({ t: 'dozen', v: d }));
       doz.appendChild(b);
     });
+    doz.appendChild(el('div', { class: 'rt-spacer' }));
     grid.appendChild(doz);
 
-    // равные шансы
+    // равные шансы: пустые угловые ячейки выравнивают стол под зеро и колонки
     const even = el('div', { class: 'rt-outside rt-even' });
+    even.appendChild(el('div', { class: 'rt-spacer' }));
     [
-      ['1-18', 'range:low', ''], ['ЧЁТ', 'parity:even', ''], ['⛁', 'col:1', ''],
+      ['1-18', 'range:low', ''], ['ЧЁТ', 'parity:even', ''],
       ['КРАС', 'color:red', 'red'], ['ЧЁРН', 'color:black', 'black'],
-      ['⛁', 'col:2', ''], ['НЕЧ', 'parity:odd', ''], ['19-36', 'range:high', '']
+      ['НЕЧ', 'parity:odd', ''], ['19-36', 'range:high', '']
     ].forEach(([label, spot, extra]) => {
       const b = el('button', { class: 'rt-out' + (extra ? ' rt-' + extra : ''), dataset: { spot } });
       if (label === 'КРАС') b.style.color = '#ff8a8a';
       if (label === 'ЧЁРН') b.style.color = '#bfc3d4';
-      b.textContent = label === '⛁' ? '2:1' : label;
+      b.textContent = label;
       const [t, rv] = spot.split(':');
       b.addEventListener('click', () => addBet({ t, v: isNaN(+rv) ? rv : +rv }));
       even.appendChild(b);
     });
+    even.appendChild(el('div', { class: 'rt-spacer' }));
     // три колонки 2:1 по правому краю — добавляем вертикально внутри номеров справа
     const colBtns = el('div', { class: 'rt-cols' });
     [3, 2, 1].forEach((c) => {
@@ -323,6 +327,7 @@
     grid.appendChild(even);
     table.appendChild(grid);
 
+    v.appendChild(Casino.bonusBadge());
     wrap.append(left, el('div', { class: 'panel table-panel' }, table,
       el('p', { class: 'muted', style: { fontSize: '10.5px', marginTop: '10px', textAlign: 'center' },
         text: 'Фишки складываются в одну ставку на клетке. Зеро проигрывает все равные шансы. RTP европейской рулетки ≈ 97,3%.' })

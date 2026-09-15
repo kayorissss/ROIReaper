@@ -131,9 +131,46 @@
     return el('div', { class: 'result-banner ' + kind, text });
   }
 
+  // Бонусная плашка: раз в 20 минут можно получить 100–300 мёда
+  function bonusBadge() {
+    const box = el('div', { class: 'casino-bonus' });
+    function tick() {
+      if (!document.body.contains(box)) { clearInterval(timer); return; }
+      const ready = bonusAvailable();
+      box.replaceChildren();
+      if (ready) {
+        box.classList.add('ready');
+        box.append(
+          el('span', { class: 'cb-gift', text: '🎁' }),
+          el('div', { class: 'cb-text' },
+            el('b', { text: 'Подарок от казино готов!' }),
+            el('span', { class: 'muted', style: { fontSize: '10.5px' }, text: '100–300 мёда каждые 20 минут' })),
+          el('button', {
+            class: 'btn btn-sm btn-primary', text: 'Забрать',
+            onclick: () => { const a = claimBonus(); if (a) { UI.toast('Бонус казино: +🍯' + U.fmt(a), 'good', '🎁'); Snd.play('bigwin'); tick(); } }
+          })
+        );
+      } else {
+        box.classList.remove('ready');
+        const ms = Date.now() - Store.state.casino.lastBonus;
+        const left = Math.max(0, 20 * 60 * 1000 - ms);
+        const m = Math.floor(left / 60000), s = Math.floor((left % 60000) / 1000);
+        box.append(
+          el('span', { class: 'cb-gift muted', text: '🎁' }),
+          el('div', { class: 'cb-text' },
+            el('b', { class: 'muted', text: 'Следующий бонус казино' }),
+            el('span', { class: 'muted mono', style: { fontSize: '11px' }, text: `через ${m}:${String(s).padStart(2, '0')}` }))
+        );
+      }
+    }
+    const timer = setInterval(tick, 1000);
+    tick();
+    return box;
+  }
+
   window.Casino = {
     betControl, takeBet, payWin, countLoss,
     deck52, deck36, bjScore, bjValue, cardNode, cardsBack, SUITS,
-    bonusAvailable, claimBonus, resultBanner, CHIPS
+    bonusAvailable, claimBonus, bonusBadge, resultBanner, CHIPS
   };
 })();

@@ -40,6 +40,7 @@
     v.appendChild(el('div', { class: 'page-head anim-item' },
       el('div', {}, el('h1', { text: '🃏 Блэкджек' }),
         el('p', { text: 'Цель — 21. Карты 2–9 по номиналу, картинки 10, туз 1 или 11. Блэкджек платит 3 к 2, дилер останавливается на 17.' }))));
+    v.appendChild(Casino.bonusBadge());
 
     const table = el('div', { class: 'panel bj-table anim-item' });
     const dealerSeat = seat('Дилер');

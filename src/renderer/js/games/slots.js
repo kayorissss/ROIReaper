@@ -90,6 +90,7 @@
     v.appendChild(el('div', { class: 'page-head anim-item' },
       el('div', {}, el('h1', { text: '🎰 Слоты «Мёд удачи»' }),
         el('p', { text: '20 линий, вайлд 🐝 заменяет символы, три 👑 дают 10 фриспинов с множителем ×3.' }))));
+    v.appendChild(Casino.bonusBadge());
 
     const machine = el('div', { class: 'panel slot-machine anim-item' });
     const reelsWrap = el('div', { class: 'slot-reels' });

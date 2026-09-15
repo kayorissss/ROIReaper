@@ -210,6 +210,17 @@ kbd {
 .kpi-k { font-size: 10px; text-transform: uppercase; letter-spacing: .12em; margin-top: 2px; }
 
 /* ================= КАЗИНО: общее ================= */
+.casino-bonus {
+  display: flex; align-items: center; gap: 12px;
+  background: linear-gradient(95deg, color-mix(in srgb,var(--accent) 13%,var(--panel)), var(--panel) 60%);
+  border: 1px solid color-mix(in srgb,var(--accent) 30%,var(--line));
+  border-radius: 14px; padding: 10px 16px; margin: 0 auto 14px;
+  max-width: 900px;
+}
+.casino-bonus.ready { animation: glowPulse 2s ease-in-out infinite; }
+.cb-gift { font-size: 26px; }
+.cb-text { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.cb-text b { font-size: 12.5px; }
 .bet-ctl { margin-bottom: 14px; }
 .bet-input { width: 120px; text-align: center; font-weight: 800; }
 .chips { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
@@ -322,11 +333,8 @@ kbd {
 .rt-num:hover, .rt-out:hover { filter: brightness(1.35); }
 .rt-num:active, .rt-out:active { transform: scale(.96); }
 .rt-red { background: #a32222; } .rt-black { background: #1b1b22; } .rt-zero { background: #1d7a3e; }
-.rt-dozens { display: grid; grid-template-columns: 52px 1fr; margin-top: 0; }
-.rt-dozens .rt-out { grid-column: 2; }
-.rt-dozens { display: block; }
 .rt-dozens { display: grid; grid-template-columns: 52px repeat(3,1fr) 34px; }
-.rt-dozens .rt-out:first-child { grid-column: 2; }
+.rt-spacer { background: transparent; }
 .rt-even { display: grid; grid-template-columns: 52px repeat(6,1fr) 34px; }
 .rt-out { background: #23232c; height: 40px; font-size: 10.5px; }
 .rt-red.rt-out, .rt-out.rt-red { background: #a32222; } .rt-out.rt-black { background: #111116; }

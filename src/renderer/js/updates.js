@@ -56,7 +56,10 @@
     document.getElementById('notifyText').textContent = 'Жнец Роя стал лучше — посмотреть, что нового.';
     const btn = document.getElementById('notifyBtn');
     btn.textContent = 'Обновить';
-    btn.onclick = () => { n.hidden = true; Go('settings'); };
+    btn.onclick = () => {
+      n.hidden = true; Go('settings');
+      setTimeout(() => document.querySelector('[data-upd-open]')?.click(), 350);
+    };
     document.getElementById('notifyX').onclick = () => { n.hidden = true; Store.state.updates.dismissed = info.latest; Store.save(); };
     n.hidden = false;
     const bar = n.querySelector('.notify-bar');

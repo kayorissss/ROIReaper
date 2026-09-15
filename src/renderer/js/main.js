@@ -31,6 +31,7 @@
     document.documentElement.dataset.theme = s.theme;
     document.documentElement.dataset.accent = s.accent;
     document.body.classList.toggle('no-anim', s.animations === false);
+    try { Snd.setVolume(s.volume); if (Snd.enabled !== !!s.sound) Snd.setEnabled(!!s.sound); } catch (e) {}
     $('#soundBtn').textContent = s.sound ? '🔊' : '🔇';
     const meta = document.querySelector('meta[name="color-scheme"]');
     if (meta) meta.content = s.theme;
@@ -78,7 +79,10 @@
   $('#menuBtn').addEventListener('click', () => $('.sidebar').classList.toggle('open'));
 
   /* ---------- Звук / фуллскрин ---------- */
-  $('#soundBtn').addEventListener('click', () => Snd.setEnabled(!Snd.enabled));
+  $('#soundBtn').addEventListener('click', () => {
+    Snd.setEnabled(!Snd.enabled);
+    Store.state.settings.sound = Snd.enabled; Store.save();
+  });
   function toggleFs() {
     if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
     else document.exitFullscreen?.();

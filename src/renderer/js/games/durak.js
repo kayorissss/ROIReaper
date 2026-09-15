@@ -180,10 +180,11 @@
     }
   }
   function uncoveredTarget(i) {
-    if (busy || attacker !== 'p' || !selected) return;
+    // клик по атаке на столе работает, когда защищается игрок (атакует ИИ)
+    if (busy || attacker !== 'ai' || !selected) return;
     const pair = table[i];
     if (pair.over) return;
-    if (!beats(selected, pair.under)) { Snd.play('deny'); setMsg('Карта не бьёт эту атаку', 'bad'); return; }
+    if (!beats(selected, pair.under)) { Snd.play('deny'); setMsg('Эта карта не бьёт выбранную атаку', 'bad'); return; }
     coverCard(i, selected);
   }
   function coverCard(i, c) {
@@ -276,27 +277,8 @@
   function aiAttack() {
     if (over) return;
     busy = true;
-    // выбирает карту для захода: самая слабая не-козырная, либо минимальный козырь
-    function pick() {
-      if (!table.length) {
-        const non = hands.ai.filter((c) => !isTrump(c)).sort((a, b) => a.v - b.v);
-        return non[0] || hands.ai.slice().sort((a, b) => a.v - b.v)[0];
-      }
-      // подкиды: по рангам, уважая лимит 6 и размер руки игрока
-      const ranks = ranksOnTable();
-      const max = Math.min(6, 6);
-      if (tableCount() >= max) return null;
-      if (tableCount() >= hands.p.length + table.filter((p) => p.over).length) return null;
-      const opts = hands.ai
-        .filter((c) => ranks.has(c.rank))
-        .filter((c) => !isTrump(c) || table.length > 2)
-        .sort((a, b) => a.v - b.v);
-      // не подкидывает козыри без нужды
-      return opts[0] || null;
-    }
-    const c = pick();
+    const c = aiThrowOne();
     if (!c) {
-      // бито со стороны ИИ
       busy = false;
       return callBitoAI();
     }
@@ -305,29 +287,38 @@
     busy = false;
   }
 
-  function afterPlayerDefense() {
-    if (uncovered().length) return; // игрок ещё не всё покрыл (подкиды были раньше)
-    if (attacker === 'ai') {
-      // ИИ решает подкинуть ещё
+  function aiThrowOne() {
+    // ИИ атакует/подкидывает: самую слабую подходящую карту; null — если нечего/не хочет
+    if (tableCount() >= 6) return null;
+    let candidates;
+    if (!table.length) {
+      candidates = hands.ai.filter((c) => !isTrump(c)).sort((a, b) => a.v - b.v);
+      if (!candidates.length) candidates = hands.ai.slice().sort((a, b) => a.v - b.v);
+    } else {
       const ranks = ranksOnTable();
-      if (tableCount() < 6 && hands.p.length > 0) {
-        const opts = hands.ai
-          .filter((c) => ranks.has(c.rank))
-          .filter((c) => !isTrump(c) || table.length > 2)
-          .sort((a, b) => a.v - b.v);
-        // ИИ подкидывает с вероятностью ~65%, если не в конце игры
-        const c = opts[0];
-        if (c && Math.random() < .7) {
-          hands.ai.splice(hands.ai.indexOf(c), 1);
-          table.push({ under: c, over: null });
-          Snd.play('card'); paint();
-          setMsg('ИИ подкидывает ' + c.rank + '!');
-          return;
-        }
-      }
-      setMsg('ИИ больше не подкидывает. Отбивайся или жми «Беру»…');
-      // ничего — ждём решения игрока (бито недоступно защите)
-      paint();
+      candidates = hands.ai.filter((c) => ranks.has(c.rank))
+        .filter((c) => !isTrump(c) || table.length > 2)
+        .sort((a, b) => a.v - b.v);
+    }
+    const c = candidates[0];
+    if (!c) return null;
+    hands.ai.splice(hands.ai.indexOf(c), 1);
+    table.push({ under: c, over: null });
+    return c;
+  }
+
+  function afterPlayerDefense() {
+    if (uncovered().length) return; // игрок ещё не всё покрыл
+    if (attacker !== 'ai') return;
+    // ИИ подкидывает с шансом ~65%, иначе объявляет «бито»
+    let c = null;
+    if (tableCount() < 6 && hands.p.length > 0 && Math.random() < .65) c = aiThrowOne();
+    if (c) {
+      Snd.play('card'); paint();
+      setMsg('ИИ подкидывает ' + c.rank + ' — отбивайся!');
+    } else {
+      setMsg('ИИ говорит «бито»…');
+      setTimeout(doBito, 500);
     }
   }
 
