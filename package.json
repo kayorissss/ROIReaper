@@ -5,16 +5,36 @@
   "description": "ROIReaper — Жнец Роя. Официальный сборник мини-игр: кликер, кейсы, казино, империя, аркада уклонения, шашки, дурак, 2048 и не только.",
   "author": "kayorissss",
   "license": "MIT",
-  "homepage": "https://github.com/kayorissss/ROIReaper",
+  "homepage": "https://github.com/kayorissss/ROIReaper#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kayorissss/ROIReaper.git"
+    "url": "git+https://github.com/kayorissss/ROIReaper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kayorissss/ROIReaper/issues"
+  },
+  "keywords": [
+    "game",
+    "mini-games",
+    "casino",
+    "clicker",
+    "checkers",
+    "durak",
+    "windows",
+    "portable",
+    "offline",
+    "roireaper"
+  ],
+  "engines": {
+    "node": ">=18"
   },
   "private": true,
   "scripts": {
     "start": "node tools/dev-server.js",
     "test": "node tools/test-games.js",
+    "stress": "node tools/stress-games.js",
     "icon": "node scripts/make-icon.js",
+    "banner": "python3 scripts/make-banner.py",
     "dist": "node scripts/build-windows.js"
   },
   "devDependencies": {

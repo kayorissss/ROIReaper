@@ -1,6 +1,17 @@
+# Зависимости и сборка
 node_modules/
 dist/
 build/tools/
+release/
+
+# Логи и временные файлы
 *.log
+*.tmp
+*.bak
 .DS_Store
 Thumbs.db
+debug-durak.js
+
+# Python
+__pycache__/
+.venv/

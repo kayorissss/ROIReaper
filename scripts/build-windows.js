@@ -82,8 +82,14 @@ fs.writeFileSync(path.join(portable, 'ROIReaper.exe.manifest'), `<?xml version="
   </application></compatibility>
 </assembly>`);
 
-// BOM для всех PowerShell-скриптов
-walk(portable, (p) => { if (p.endsWith('.ps1')) ensureBom(p); });
+// BOM для всех PowerShell-скриптов, CRLF — для .cmd/.bat/.vbs (так надёжнее на Windows)
+walk(portable, (p) => {
+  if (p.endsWith('.ps1')) ensureBom(p);
+  if (/\.(cmd|bat|vbs)$/i.test(p)) {
+    const b = fs.readFileSync(p);
+    fs.writeFileSync(p, Buffer.from(b.toString('utf8').replace(/\r?\n/g, '\r\n'), 'utf8'));
+  }
+});
 
 // ---- Портативный ZIP ----
 console.log('• Пакуем портативную версию (ZIP)…');
