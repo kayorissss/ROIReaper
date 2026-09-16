@@ -57,8 +57,8 @@ body:
     id: version
     attributes:
       label: Версия ROIReaper
-      description: Видна на главном экране в плашке версии (например, v1.0.1).
-      placeholder: v1.0.1
+      description: Видна на главном экране в плашке версии (например, v1.1.0).
+      placeholder: v1.1.0
     validations:
       required: true
   - type: input

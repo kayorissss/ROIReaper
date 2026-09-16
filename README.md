@@ -18,10 +18,10 @@
 <a href="https://github.com/kayorissss/ROIReaper/releases/latest">
 <img src="https://img.shields.io/badge/%D0%92%D0%A1%D0%95%20%D0%A0%D0%95%D0%9B%D0%98%D0%97%D0%AB-%D0%A1%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B0%20%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D0%BA-f5b53c?style=for-the-badge&labelColor=19191f" alt="Страница релизов" height="38"></a>
 &nbsp;
-<a href="https://github.com/kayorissss/ROIReaper/releases/download/v1.0.1/ROIReaper-1.0.1-Portable.zip">
+<a href="https://github.com/kayorissss/ROIReaper/releases/download/v1.1.0/ROIReaper-1.1.0-Portable.zip">
 <img src="https://img.shields.io/badge/PORTABLE-zip%20%E2%86%93-202028?style=for-the-badge&logo=files&logoColor=f5b53c" alt="Скачать Portable ZIP" height="38"></a>
 &nbsp;
-<a href="https://github.com/kayorissss/ROIReaper/releases/download/v1.0.1/ROIReaper-Setup-1.0.1.exe">
+<a href="https://github.com/kayorissss/ROIReaper/releases/download/v1.1.0/ROIReaper-Setup-1.1.0.exe">
 <img src="https://img.shields.io/badge/%D0%A3%D0%A1%D0%A2%D0%90%D0%9D%D0%9E%D0%92%D0%A9%D0%98%D0%9A-exe%20%E2%86%93-202028?style=for-the-badge&logo=windowsterminal&logoColor=f5b53c" alt="Скачать установщик" height="38"></a>
 
 </div>
@@ -78,7 +78,7 @@
 
 ### 🧷 Вариант 1. Portable — на флешку, без установки
 
-1. Скачайте **`ROIReaper-1.0.1-Portable.zip`** (кнопка выше или со [страницы релизов](https://github.com/kayorissss/ROIReaper/releases/latest)).
+1. Скачайте **`ROIReaper-1.1.0-Portable.zip`** (кнопка выше или со [страницы релизов](https://github.com/kayorissss/ROIReaper/releases/latest)).
 2. Распакуйте в любую папку — на флешку, Рабочий стол, в документы.
 3. Запустите **`ROIReaper.cmd`** (или **`start.vbs`** — без мигающего окна консоли).
 
@@ -86,7 +86,7 @@
 
 ### 💻 Вариант 2. Установщик — ярлыки и «Программы и компоненты»
 
-1. Скачайте **`ROIReaper-Setup-1.0.1.exe`**.
+1. Скачайте **`ROIReaper-Setup-1.1.0.exe`**.
 2. Запустите: программа установится в `%LOCALAPPDATA%\ROIReaper` **без UAC**, появятся ярлыки на рабочем столе и в меню Пуск.
 3. Удаление — стандартное: «Параметры → Приложения» или «Программы и компоненты → Удалить ROIReaper».
 
