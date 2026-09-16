@@ -10,9 +10,9 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Тег релиза (например, v1.0.1)'
+        description: 'Тег релиза (например, v1.1.0)'
         required: true
-        default: 'v1.0.1'
+        default: 'v1.1.0'
       mode:
         description: 'build = собрать из исходников тега; attach = взять файлы из каталога release/ этого тега'
         type: choice
